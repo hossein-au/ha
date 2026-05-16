@@ -1,0 +1,27 @@
+alias: Bathroom - turn on light when occupied & it's dark
+description: ""
+triggers:
+  - type: occupied
+    device_id: XXX
+    entity_id: XXX
+    domain: binary_sensor
+    trigger: device
+conditions:
+  - condition: or
+    conditions:
+      - type: is_illuminance
+        condition: device
+        device_id: XXX
+        entity_id: xxx
+        domain: sensor
+        below: 30
+      - condition: template
+        value_template: |-
+          {% set light = 'XXX' %}  # if one person leaves the bathroom, the light goes off, and another person enters before light sensor is updated with low lux value
+                    {{ has_value(light) and (now() - states[light].last_changed).total_seconds() < 300 }}
+actions:
+  - type: turn_on
+    device_id: XXX
+    entity_id: XXX
+    domain: switch
+mode: single
