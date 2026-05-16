@@ -1,0 +1,20 @@
+alias: Family room - turn light on when I get home (sunset -30:00 minutes)
+description: ""
+triggers:
+  - trigger: state
+    entity_id:
+      - person.me
+    from:
+      - not_home
+    to:
+      - home
+conditions:
+  - condition: sun
+    after: sunset
+    after_offset: "-00:30:00"
+actions:
+  - type: turn_on
+    device_id: XXX
+    entity_id: XXX
+    domain: switch
+mode: single
